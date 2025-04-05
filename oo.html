@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Objektumorientált JavaScript Példa</title>
+</head>
+<body>
+  <script>
+    // Az előző JavaScript kód itt található
+
+    // Az autó és elektromos autó példányosítása
+    const auto = new Auto('Toyota', 'Corolla', 2020);
+    const elektromosAuto = new ElektromosAuto('Tesla', 'Model S', 2022, 100);
+
+    // Bemutatkozás és mozgás üzenetek hozzáadása a HTML-hez
+    const autoDiv = document.createElement('div');
+    autoDiv.textContent = `Autó: ${auto.bemutatkozas()} - ${auto.mozgatas()}`;
+    document.body.appendChild(autoDiv);
+
+    const elektromosAutoDiv = document.createElement('div');
+    elektromosAutoDiv.textContent = `Elektromos autó: ${elektromosAuto.bemutatkozas()} - ${elektromosAuto.akkumulatorToltottseg()} - ${elektromosAuto.mozgatas()}`;
+    document.body.appendChild(elektromosAutoDiv);
+
+
+
+    const auto = new Auto('Toyota', 'Corolla', 2020);
+    const elektromosAuto = new ElektromosAuto('Tesla', 'Model S', 2022, 100);
+
+    // Bemutatkozás és mozgás üzenetek hozzáadása a HTML-hez
+    const autoDiv = document.createElement('div');
+    autoDiv.textContent = `Autó: ${auto.bemutatkozas()} - ${auto.mozgatas()}`;
+    document.body.appendChild(autoDiv);
+
+    const elektromosAutoDiv = document.createElement('div');
+    elektromosAutoDiv.textContent = `Elektromos autó: ${elektromosAuto.bemutatkozas()} - ${elektromosAuto.akkumulatorToltottseg()} - ${elektromosAuto.mozgatas()}`;
+    document.body.appendChild(elektromosAutoDiv);
+  </script>
+</body>
+</html>

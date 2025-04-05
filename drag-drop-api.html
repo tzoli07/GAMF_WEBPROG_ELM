@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+	<title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--Bootstrap CSS-->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+	<!--SAJÁT CSS-->
+	<link type="text/css" rel="stylesheet" href="style.css">
+
+	<!--Bootstrap JS-->
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+	<style>
+		.draggable {
+            width: 100px;
+            height: 100px;
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: grab;
+        }
+        .dropzone {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            background-color: #e9ecef;
+	</style>
+</head>
+<body class="text-center container" >
+	<!--HEADER-->
+	<br>
+	<header>
+		<h1>Web-programozás-1 Előadás Házi feladat</h1>
+	</header>
+
+
+	<!--NAVBAR-->
+	<div class="container">
+    	<header class="d-flex justify-content-center py-3">
+      		<ul class="nav nav-pills">
+        		<li class="nav-item"><a href="index.html" class="nav-link" aria-current="page">Főoldal</a></li>
+            <li class="nav-item"><a href="crud.html" class="nav-link">CRUD</a></li>
+            <li class="nav-item"><a href="chart.html" class="nav-link">ChartJS</a></li>
+            <li class="nav-item dropdown">
+	            <div class="dropdown">
+					<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+							    HTML5 MENÜ
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
+		                <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
+		                <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
+		                <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
+		                <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
+		                <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
+		                <li><a class="dropdown-item" href="svg.html">SVG</a></li>
+					</ul>
+					</div>
+	            </li>
+	            <li class="nav-item"><a href="ajax.html" class="nav-link">AJAX</a></li>
+	      		</ul>
+    	</header>
+  	</div>
+
+
+	<!--ASIDE-->
+	<aside>
+		
+	</aside>
+
+	<!--DIV-CONTENT-->
+	<div class="content container text-center">
+
+		<h1 class="mb-4">Drag and Drop API</h1>
+        <p class="lead">Fogd és vidd műveletek a böngészőben.</p>
+        
+        <div id="draggable" class="draggable" draggable="true">Húzz ide</div>
+        <div id="dropzone" class="dropzone">Ide húzd az elemet</div>
+		
+
+	</div>
+
+
+  
+
+
+	<!--FOOTER-->
+	<div class="container">
+  		<footer class=" justify-content-center align-items-center py-3 my-4 border-top">
+    		<ul class="d-flex justify-content-center py-3 nav nav-pills">
+      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Togyer Zoltán Martin</a></li>
+      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">JT0PU6</a></li>
+    		</ul>
+  		</footer>
+	</div>
+
+
+ <script>
+        const draggable = document.getElementById("draggable");
+        const dropzone = document.getElementById("dropzone");
+
+        draggable.addEventListener("dragstart", (event) => {
+            event.dataTransfer.setData("text", event.target.id);
+        });
+
+        dropzone.addEventListener("dragover", (event) => {
+            event.preventDefault();
+        });
+
+        dropzone.addEventListener("drop", (event) => {
+    event.preventDefault();
+    let data = event.dataTransfer.getData("text");
+    let draggedElement = document.getElementById(data);
+    dropzone.appendChild(draggedElement.cloneNode(true));
+});
+
+    </script>
+</body>
+</html>

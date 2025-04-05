@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+	<title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--Bootstrap CSS-->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+	<!--SAJÁT CSS-->
+	<link type="text/css" rel="stylesheet" href="style.css">
+
+	<!--Bootstrap JS-->
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+	<style>
+		svg {
+            border: 2px solid #007bff;
+            background-color: white;
+        }
+	</style>
+</head>
+<body class="text-center container" >
+	<!--HEADER-->
+	<br>
+	<header>
+		<h1>Web-programozás-1 Előadás Házi feladat</h1>
+	</header>
+
+
+	<!--NAVBAR-->
+	<div class="container">
+    	<header class="d-flex justify-content-center py-3">
+      		<ul class="nav nav-pills">
+        		<li class="nav-item"><a href="index.html" class="nav-link" aria-current="page">Főoldal</a></li>
+            <li class="nav-item"><a href="crud.html" class="nav-link">CRUD</a></li>
+            <li class="nav-item"><a href="chart.html" class="nav-link">ChartJS</a></li>
+            <li class="nav-item dropdown">
+	            <div class="dropdown">
+					<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+							    HTML5 MENÜ
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
+		                <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
+		                <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
+		                <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
+		                <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
+		                <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
+		                <li><a class="dropdown-item" href="svg.html">SVG</a></li>
+					</ul>
+					</div>
+	            </li>
+                <li class="nav-item"><a href="ajax.html" class="nav-link">AJAX</a></li>
+	      		</ul>
+    	</header>
+  	</div>
+
+
+	<!--ASIDE-->
+	<aside>
+		
+	</aside>
+
+	<!--DIV-CONTENT-->
+	<div class="container text-center">
+        <h1 class="mb-4">SVG API</h1>
+        <p class="lead">Egyszerű alakzatok rajzolása SVG segítségével.</p>
+        <select id="shapeSelector" class="form-select w-50 mx-auto mb-3">
+            <option value="circle">Kör</option>
+            <option value="rectangle">Téglalap</option>
+            <option value="triangle">Háromszög</option>
+        </select>
+        <svg id="mySvg" width="400" height="300"></svg>
+        <br>
+        <button class="btn btn-primary mt-3" onclick="addShape()">Alakzat hozzáadása</button>
+        <button class="btn btn-danger mt-3" onclick="clearSvg()">Törlés</button>
+        <button class="btn btn-success mt-3" onclick="saveSvg()">Mentés SVG-ként</button>
+    </div>
+
+
+  
+
+
+	<!--FOOTER-->
+	<div class="container">
+  		<footer class=" justify-content-center align-items-center py-3 my-4 border-top">
+    		<ul class="d-flex justify-content-center py-3 nav nav-pills">
+      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Togyer Zoltán Martin</a></li>
+      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">JT0PU6</a></li>
+    		</ul>
+  		</footer>
+	</div>
+	
+    <script>
+        function addShape() {
+            const svg = document.getElementById("mySvg");
+            const shapeType = document.getElementById("shapeSelector").value;
+            
+            if (shapeType === "circle") {
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("cx", Math.random() * 400);
+                circle.setAttribute("cy", Math.random() * 300);
+                circle.setAttribute("r", 20);
+                circle.setAttribute("fill", "#007bff");
+                svg.appendChild(circle);
+            } else if (shapeType === "rectangle") {
+                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute("x", Math.random() * 350);
+                rect.setAttribute("y", Math.random() * 250);
+                rect.setAttribute("width", 50);
+                rect.setAttribute("height", 30);
+                rect.setAttribute("fill", "#28a745");
+                svg.appendChild(rect);
+            } else if (shapeType === "triangle") {
+                const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+                const x = Math.random() * 300;
+                const y = Math.random() * 200;
+                polygon.setAttribute("points", `${x},${y} ${x+30},${y+50} ${x-30},${y+50}`);
+                polygon.setAttribute("fill", "#dc3545");
+                svg.appendChild(polygon);
+            }
+        }
+
+        function clearSvg() {
+            const svg = document.getElementById("mySvg");
+            while (svg.firstChild) {
+                svg.removeChild(svg.firstChild);
+            }
+        }
+
+        function saveSvg() {
+            const svg = document.getElementById("mySvg");
+            const serializer = new XMLSerializer();
+            const source = serializer.serializeToString(svg);
+            const blob = new Blob([source], { type: "image/svg+xml" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "drawing.svg";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>

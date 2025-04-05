@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+	<title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--Bootstrap CSS-->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+	<!--SAJÁT CSS-->
+	<link type="text/css" rel="stylesheet" href="style.css">
+
+	<!--Bootstrap JS-->
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+
+	<style>
+		  canvas {
+            border: 2px solid #007bff;
+            background-color: white;
+        }
+	</style>
+</head>
+<body class="text-center container" >
+	<!--HEADER-->
+	<br>
+	<header>
+		<h1>Web-programozás-1 Előadás Házi feladat</h1>
+	</header>
+
+
+	<!--NAVBAR-->
+	<div class="container">
+    	<header class="d-flex justify-content-center py-3">
+      		<ul class="nav nav-pills">
+        		<li class="nav-item"><a href="index.html" class="nav-link" aria-current="page">Főoldal</a></li>
+            <li class="nav-item"><a href="crud.html" class="nav-link">CRUD</a></li>
+            <li class="nav-item"><a href="chart.html" class="nav-link">ChartJS</a></li>
+            <li class="nav-item dropdown">
+	            <div class="dropdown">
+					<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+							    HTML5 MENÜ
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
+		                <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
+		                <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
+		                <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
+		                <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
+		                <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
+		                <li><a class="dropdown-item" href="svg.html">SVG</a></li>
+					</ul>
+					</div>
+	            </li>
+	            <li class="nav-item"><a href="ajax.html" class="nav-link">AJAX</a></li>
+	      		</ul>
+    	</header>
+  	</div>
+
+
+	<!--ASIDE-->
+	<aside>
+		
+	</aside>
+
+	<!--DIV-CONTENT-->
+	 <div class="container text-center">
+        <h1 class="mb-4">Canvas API</h1>
+        <p class="lead">Egyszerű rajzolás a Canvas API segítségével.</p>
+        <canvas id="myCanvas" width="400" height="300"></canvas>
+        <br>
+        <button class="btn btn-danger mt-3" onclick="clearCanvas()">Törlés</button>
+    </div>
+
+
+  
+
+
+	<!--FOOTER-->
+	<div class="container">
+  		<footer class=" justify-content-center align-items-center py-3 my-4 border-top">
+    		<ul class="d-flex justify-content-center py-3 nav nav-pills">
+      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Togyer Zoltán Martin</a></li>
+      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">JT0PU6</a></li>
+    		</ul>
+  		</footer>
+	</div>
+
+	   <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+        let drawing = false;
+
+        canvas.addEventListener("mousedown", () => drawing = true);
+        canvas.addEventListener("mouseup", () => drawing = false);
+        canvas.addEventListener("mousemove", draw);
+
+        function draw(event) {
+            if (!drawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            ctx.fillStyle = "#007bff";
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    </script>
+</body>
+</html>

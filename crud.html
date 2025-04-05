@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+	<title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--Bootstrap CSS-->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+	<!--SAJÁT CSS-->
+	<link type="text/css" rel="stylesheet" href="style.css">
+
+  <link type="text/css" rel="stylesheet" href="tabla.css">
+
+	<!--Bootstrap JS-->
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+
+</head>
+<body class="text-center container" >
+	<!--HEADER-->
+	<br>
+	<header>
+		<h1>Web-programozás-1 Előadás Házi feladat</h1>
+	</header>
+
+
+	<!--NAVBAR-->
+	<div class="container">
+    	<header class="d-flex justify-content-center py-2">
+      		<ul class="nav nav-pills">
+        		<li class="nav-item"><a href="index.html" class="nav-link " aria-current="page">Főoldal</a></li>
+
+            <li class="nav-item"><a href="crud.html" class="nav-link active">CRUD</a></li>
+            <li class="nav-item"><a href="chart.html" class="nav-link">ChartJS</a></li>
+             <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                HTML5 MENÜ
+              </a>
+              <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
+                  <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
+                  <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
+                  <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
+                  <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
+                  <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
+                  <li><a class="dropdown-item" href="svg.html">SVG</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a href="ajax.html" class="nav-link">AJAX</a></li>
+      		</ul>
+    	</header>
+  	</div>
+
+  <hr>
+	<!--ASIDE-->
+	<aside>
+		
+	</aside>
+
+	<!--DIV-CONTENT-->
+	<div class="content container text-center">
+		
+     <h1 class="mb-4">CRUD Táblázat</h1>
+        <p class="lead">Js segítségével történő táblázat feltöltés, módosítás</p>
+
+	</div>
+
+
+  <div class="employee-form">
+    <form onsubmit="event.preventDefault();onFormSubmit();">
+
+
+      <div>
+        <label>Full Name*</label><label class="validation-error hide" id="fullNameValidationError">This field is required.</label>
+        <input type="text" name="fullName" id="fullName">
+      </div>
+      <div>
+        <label>Email Id</label>
+        <input type="text" name="email" id="email">
+      </div>
+      <div>
+        <label>Salary</label>
+        <input type="text" name="salary" id="salary">
+      </div>
+      <div>
+        <label>City</label>
+        <input type="text" name="city" id="city">
+      </div>
+      <div  class="form-action-buttons">
+        <input type="submit" value="Submit">
+      </div>
+
+
+
+
+    </form>
+  </div>
+  <br/>
+ 
+  <div class="employees-table">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Keresés a táblázatban....." title="Type in a name">
+    <table class="list" id="employeeList" ddata-search="true" data-pagination="true">
+      
+
+      <thead>
+        <tr>
+          <th >Név</th>
+          <th >Email cím</th>
+          <th >Fizetés</th>
+          <th >Település</th>
+          <th >Műveletek</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+  
+
+
+
+	<!--FOOTER-->
+	<div class="container">
+  		<footer class=" justify-content-center align-items-center py-3 my-4 border-top">
+    		<ul class="d-flex justify-content-center py-3 nav nav-pills">
+      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Togyer Zoltán Martin</a></li>
+      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">JT0PU6</a></li>
+    		</ul>
+  		</footer>
+	</div>
+
+
+<script src="crud.js"></script>
+
+<script>
+function myFunction() {
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("employeeList"); // Helyes ID használata
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 1; i < tr.length; i++) { // Kezdjük az 1. elemtől, hogy a fejlécet kihagyjuk
+        td = tr[i].getElementsByTagName("td");
+        let found = false;
+        for (j = 0; j < td.length; j++) {
+            if (td[j]) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+   
+        tr[i].style.display = found ? "" : "none";
+    }
+}
+</script>
+
+<script>
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("employeeList");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc"; 
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;      
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+
+
+</body>
+</html>

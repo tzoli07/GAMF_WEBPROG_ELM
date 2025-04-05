@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX API Alkalmazás</title>
+    <title>Táblázat és ChartJS</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Saját CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-center container">
+     <header>
+        <h1>Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+    <h1>API Adatok</h1>
+    <div class="container">
+        <header class="d-flex justify-content-center py-3">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="index.html" class="nav-link " aria-current="page">Főoldal</a></li>
+            <li class="nav-item"><a href="crud.html" class="nav-link">CRUD</a></li>
+            <li class="nav-item"><a href="chart.html" class="nav-link">ChartJS</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                HTML5 MENÜ
+              </a>
+              <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
+                    <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
+                    <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
+                    <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
+                    <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
+                    <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
+                    <li><a class="dropdown-item" href="svg.html">SVG</a></li>
+              </ul>
+            </li>
+             <li class="nav-item"><a href="ajax.html" class="nav-link active">AJAX</a></li>
+            </ul>
+        </header>
+    </div>
+    <button id="loadData">Adatok betöltése</button>
+    <ul id="dataList"></ul>
+    <p id="stats"></p>
+
+    <h2>Új adat hozzáadása</h2>
+    <input type="text" id="name" placeholder="Név" maxlength="30">
+    <input type="text" id="height" placeholder="Magasság" maxlength="30">
+    <input type="text" id="weight" placeholder="Súly" maxlength="30">
+    <button id="create">Létrehozás</button>
+    <p id="createResponse"></p>
+
+    <h2>Adat módosítása</h2>
+    <input type="text" id="updateId" placeholder="ID">
+    <button id="getDataForId">Adat lekérése</button>
+    <input type="text" id="updateName" placeholder="Új név" maxlength="30">
+    <input type="text" id="updateHeight" placeholder="Új magasság" maxlength="30">
+    <input type="text" id="updateWeight" placeholder="Új súly" maxlength="30">
+    <button id="update">Módosítás</button>
+    <p id="updateResponse"></p>
+
+    <h2>Adat törlése</h2>
+    <input type="text" id="deleteId" placeholder="ID">
+    <button id="delete">Törlés</button>
+    <p id="deleteResponse"></p>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+	<title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--Bootstrap CSS-->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+	<!--SAJÁT CSS-->
+	<link type="text/css" rel="stylesheet" href="style.css">
+
+	<!--Bootstrap JS-->
+	<script src="js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="text-center container" >
+	<!--HEADER-->
+	<br>
+	<header>
+		<h1>Web-programozás-1 Előadás Házi feladat</h1>
+	</header>
+
+
+	<!--NAVBAR-->
+	<div class="container">
+    	<header class="d-flex justify-content-center py-3">
+      		<ul class="nav nav-pills">
+        		<li class="nav-item"><a href="index.html" class="nav-link" aria-current="page">Főoldal</a></li>
+            <li class="nav-item"><a href="crud.html" class="nav-link">CRUD</a></li>
+            <li class="nav-item"><a href="chart.html" class="nav-link">ChartJS</a></li>
+            <li class="nav-item dropdown">
+	            <div class="dropdown">
+					<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+							    HTML5 MENÜ
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
+		                <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
+		                <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
+		                <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
+		                <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
+		                <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
+		                <li><a class="dropdown-item" href="svg.html">SVG</a></li>
+					</ul>
+					</div>
+	            </li>
+	            <li class="nav-item"><a href="ajax.html" class="nav-link">AJAX</a></li>
+	      		</ul>
+    	</header>
+  	</div>
+
+
+	<!--ASIDE-->
+	<aside>
+		
+	</aside>
+
+	<!--DIV-CONTENT-->
+	<div class="content container text-center">
+		<h3 class="mb-4">Server-Sent Events</h3>
+
+		<p class="lead">Valós idejű adatok fogadása a szervertől SSE segítségével.</p>
+        
+        <button class="btn btn-primary" onclick="startSSE()">Csatlakozás az eseményekhez</button>
+        <button class="btn btn-danger" onclick="stopSSE()">Kapcsolat bontása</button>
+        
+        <div class="mt-4">
+            <h4>Üzenetek:</h4>
+            <div id="output" class="alert alert-info" style="height: 200px; overflow-y: auto;">Nincs beérkező adat</div>
+        </div>
+		
+
+	</div>
+
+
+  
+
+
+	<!--FOOTER-->
+	<div class="container">
+  		<footer class=" justify-content-center align-items-center py-3 my-4 border-top">
+    		<ul class="d-flex justify-content-center py-3 nav nav-pills">
+      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Togyer Zoltán Martin</a></li>
+      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">JT0PU6</a></li>
+    		</ul>
+  		</footer>
+	</div>
+
+
+	 <script>
+        let eventSource;
+
+        function startSSE() {
+            if (typeof(EventSource) !== "undefined") {
+                eventSource = new EventSource("server.php");
+                eventSource.onmessage = function(event) {
+                    let output = document.getElementById("output");
+                    output.innerHTML += `<p>${event.data}</p>`;
+                    output.scrollTop = output.scrollHeight;
+                };
+            } else {
+                document.getElementById("output").innerText = "A böngésződ nem támogatja a Server-Sent Events funkciót.";
+            }
+        }
+        
+        function stopSSE() {
+            if (eventSource) {
+                eventSource.close();
+                eventSource = null;
+                document.getElementById("output").innerText = "Kapcsolat bontva.";
+            }
+        }
+    </script>
+</body>
+</html>

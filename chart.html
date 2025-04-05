@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Táblázat és ChartJS</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Saját CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+</head>
+<body class="text-center container">
+    <header>
+        <h1>Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+    <!--NAVBAR-->
+    <div class="container">
+        <header class="d-flex justify-content-center py-3">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="index.html" class="nav-link " aria-current="page">Főoldal</a></li>
+            <li class="nav-item"><a href="crud.html" class="nav-link">CRUD</a></li>
+            <li class="nav-item"><a href="chart.html" class="nav-link active">ChartJS</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                HTML5 MENÜ
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
+                    <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
+                    <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
+                    <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
+                    <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
+                    <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
+                    <li><a class="dropdown-item" href="svg.html">SVG</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a href="ajax.html" class="nav-link">AJAX</a></li>
+            </ul>
+            <div class="dropdown">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Dropdown link
+  </a>
+
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">Action</a></li>
+    <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+</div>
+        </header>
+    </div>
+
+    <div class="container mt-4">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                </tr>
+            </thead>
+            <tbody id="data-table">
+                <!-- JavaScript tölti be az adatokat -->
+            </tbody>
+        </table>
+    </div>
+    
+    <canvas id="chart"></canvas>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const tableBody = document.getElementById("data-table");
+            const ctx = document.getElementById("chart").getContext("2d");
+            let chart;
+            
+            function generateRandomData() {
+                let data = [];
+                for (let i = 0; i < 5; i++) {
+                    let row = [i + 1];
+                    for (let j = 0; j < 5; j++) {
+                        row.push(Math.floor(Math.random() * 100) + 1);
+                    }
+                    data.push(row);
+                }
+                return data;
+            }
+            
+            function populateTable(data) {
+                tableBody.innerHTML = "";
+                data.forEach(row => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = row.map(cell => `<td>${cell}</td>`).join("\n");
+                    tr.addEventListener("click", () => updateChart(row.slice(1)));
+                    tableBody.appendChild(tr);
+                });
+            }
+            
+            function updateChart(data) {
+                if (chart) chart.destroy();
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['1', '2', '3', '4', '5'],
+                        datasets: [{
+                            label: 'Kiválasztott sor értékei',
+                            data: data,
+                            borderColor: 'blue',
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+            
+            const tableData = generateRandomData();
+            populateTable(tableData);
+        });
+    </script>
+</body>
+</html>
