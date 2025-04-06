@@ -1,67 +1,107 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJAX API Alkalmazás</title>
-    <title>Táblázat és ChartJS</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Saját CSS -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AJAX API Alkalmazás</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+
+  <style>body {
+      background: linear-gradient(100deg, #FF9A02, #FED404);
+}</style>
 </head>
-<body class="text-center container">
-     <header>
-        <h1>Web-programozás-1 Előadás Házi feladat</h1>
-    </header>
-    <h1>API Adatok</h1>
+<body class="container py-4">
+  <h1 class="text-center mb-4">Web-programozás-1 Előadás Házi feladat
+</h1>
+
     <div class="container">
-        <header class="d-flex justify-content-center py-3">
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="index.html" class="nav-link " aria-current="page">Főoldal</a></li>
+      <header class="d-flex justify-content-center py-2">
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="index.html" class="nav-link " aria-current="page">Főoldal</a></li>
+
             <li class="nav-item"><a href="crud.html" class="nav-link">CRUD</a></li>
             <li class="nav-item"><a href="chart.html" class="nav-link">ChartJS</a></li>
-            <li class="nav-item dropdown">
+             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 HTML5 MENÜ
               </a>
               <ul class="dropdown-menu">
                  <li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
-                    <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
-                    <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
-                    <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
-                    <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
-                    <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
-                    <li><a class="dropdown-item" href="svg.html">SVG</a></li>
+                  <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
+                  <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
+                  <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
+                  <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
+                  <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
+                  <li><a class="dropdown-item" href="svg.html">SVG</a></li>
               </ul>
             </li>
-             <li class="nav-item"><a href="ajax.html" class="nav-link active">AJAX</a></li>
-            </ul>
-        </header>
+            <li class="nav-item"><a href="ajax.html" class="nav-link active">AJAX</a></li>
+
+                         <li class="nav-item"><a href="oo.html" class="nav-link">OOJS Alkalmazás</a></li>
+
+          </ul>
+      </header>
     </div>
-    <button id="loadData">Adatok betöltése</button>
-    <ul id="dataList"></ul>
-    <p id="stats"></p>
 
-    <h2>Új adat hozzáadása</h2>
-    <input type="text" id="name" placeholder="Név" maxlength="30">
-    <input type="text" id="height" placeholder="Magasság" maxlength="30">
-    <input type="text" id="weight" placeholder="Súly" maxlength="30">
-    <button id="create">Létrehozás</button>
-    <p id="createResponse"></p>
+  <hr>
+ <div class="content container text-center">
+        
+     <h1 class="mb-4">AJAX - API</h1>
+        
 
-    <h2>Adat módosítása</h2>
-    <input type="text" id="updateId" placeholder="ID">
-    <button id="getDataForId">Adat lekérése</button>
-    <input type="text" id="updateName" placeholder="Új név" maxlength="30">
-    <input type="text" id="updateHeight" placeholder="Új magasság" maxlength="30">
-    <input type="text" id="updateWeight" placeholder="Új súly" maxlength="30">
-    <button id="update">Módosítás</button>
-    <p id="updateResponse"></p>
+  </div> <hr>
+  <div class="text-center mb-3">
+    <button class="btn btn-primary" id="loadData">Adatok betöltése</button>
+  </div>
 
-    <h2>Adat törlése</h2>
-    <input type="text" id="deleteId" placeholder="ID">
-    <button id="delete">Törlés</button>
-    <p id="deleteResponse"></p>
+  <ul class="list-group mb-3" id="dataList"></ul>
+  <p class="fw-bold" id="stats"></p>
+
+  <hr>
+
+  <h2>Új adat hozzáadása</h2>
+  <div class="row g-2">
+    <div class="col-md-3"><input type="text" class="form-control" id="name" placeholder="Név" maxlength="30"></div>
+    <div class="col-md-3"><input type="text" class="form-control" id="height" placeholder="Magasság" maxlength="30"></div>
+    <div class="col-md-3"><input type="text" class="form-control" id="weight" placeholder="Súly" maxlength="30"></div>
+    <div class="col-md-3"><button class="btn btn-success w-100" id="create">Létrehozás</button></div>
+  </div>
+  <p id="createResponse" class="mt-2"></p>
+
+  <hr>
+
+  <h2>Adat módosítása</h2>
+  <div class="row g-2">
+    <div class="col-md-3"><input type="text" class="form-control" id="updateId" placeholder="ID"></div>
+    <div class="col-md-3"><button class="btn btn-info w-100" id="getDataForId">Adat lekérése</button></div>
+  </div>
+  <div class="row g-2 mt-2">
+    <div class="col-md-3"><input type="text" class="form-control" id="updateName" placeholder="Új név" maxlength="30"></div>
+    <div class="col-md-3"><input type="text" class="form-control" id="updateHeight" placeholder="Új magasság" maxlength="30"></div>
+    <div class="col-md-3"><input type="text" class="form-control" id="updateWeight" placeholder="Új súly" maxlength="30"></div>
+    <div class="col-md-3"><button class="btn btn-primary w-100" id="update">Módosítás</button></div>
+  </div>
+  <p id="updateResponse" class="mt-2"></p>
+
+
+
+
+
+
+
+
+
+  <hr>
+
+  <h2>Adat törlése</h2>
+  <div class="row g-2">
+    <div class="col-md-3"><input type="text" class="form-control" id="deleteId" placeholder="ID"></div>
+    <div class="col-md-3"><button class="btn btn-danger w-100" id="delete">Törlés</button></div>
+  </div>
+  <p id="deleteResponse" class="mt-2"></p>
+
+  <script src="ajax.js"></script>
 </body>
 </html>
