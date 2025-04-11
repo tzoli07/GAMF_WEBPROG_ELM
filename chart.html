@@ -1,32 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Táblázat és ChartJS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Táblázat + ChartJS</title>
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
-    <!-- Bootstrap CSS -->
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script> 
-   <!-- Saját CSS -->
-    <link rel="stylesheet" href="style.css">
-   <style>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
     body {
       background: linear-gradient(100deg, #FF9A02, #FED404);
-
-   </style>
-
+    }
+    table tr:hover {
+      background-color: #ffe7b3;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body class="text-center container">
-    <p></p>
-    <header>
-        <h1>Web-programozás-1 Előadás Házi feladat</h1>
-    </header>
-    <!--NAVBAR-->
+
+  <header>
+     <h1>Web-programozás-1 Előadás Házi feladat</h1>
+  </header>
+
+  <div class="container mt-4">
+    
+ <!--NAVBAR-->
     <div class="container">
         <header class="d-flex justify-content-center py-3">
             <ul class="nav nav-pills">
@@ -55,96 +59,98 @@
 </div>
         </header>
     </div>
+<h1 class="mb-4">Chart JS</h1>
     <hr>
-    <!--DIV-CONTENT-->
-    <div class="content container text-center">
-        
-     <h1 class="mb-4">Chart JS</h1>
-        
+    <h3>Válassz diagram típust</h3>
+    <select id="chartType" class="form-select w-25 mx-auto mb-3" onchange="changeChartType()">
+      <option value="line">Vonal</option>
+      <option value="bar">Oszlop</option>
+      <option value="radar">Radar</option>
+    </select>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+        </tr>
+      </thead>
+      <tbody id="data-table">
+        <!-- JS tölti be -->
+      </tbody>
+    </table>
 
-    </div>
-    <div class="container mt-4">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                </tr>
-            </thead>
-            <tbody id="data-table">
-                <!-- JavaScript tölti be az adatokat -->
-            </tbody>
-        </table>
-    </div>
-    
-    <canvas id="chart"></canvas>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const tableBody = document.getElementById("data-table");
-            const ctx = document.getElementById("chart").getContext("2d");
-            let chart;
-            
-            function generateRandomData() {
-                let data = [];
-                for (let i = 0; i < 5; i++) {
-                    let row = [i + 1];
-                    for (let j = 0; j < 5; j++) {
-                        row.push(Math.floor(Math.random() * 100) + 1);
-                    }
-                    data.push(row);
-                }
-                return data;
-            }
-            
-            function populateTable(data) {
-                tableBody.innerHTML = "";
-                data.forEach(row => {
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = row.map(cell => `<td>${cell}</td>`).join("\n");
-                    tr.addEventListener("click", () => updateChart(row.slice(1)));
-                    tableBody.appendChild(tr);
-                });
-            }
-            
-            function updateChart(data) {
-                if (chart) chart.destroy();
-                chart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['1', '2', '3', '4', '5'],
-                        datasets: [{
-                            label: 'Kiválasztott sor értékei',
-                            data: data,
-                            borderColor: 'blue',
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: { beginAtZero: true }
-                        }
-                    }
-                });
-            }
-            
-            const tableData = generateRandomData();
-            populateTable(tableData);
+    <h2 class="mt-5">Diagram</h2>
+    <canvas id="chart" height="100"></canvas>
+  </div>
+
+  <script>
+    let chart;
+    let chartType = "line";
+    const ctx = document.getElementById("chart").getContext("2d");
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const tableBody = document.getElementById("data-table");
+      const data = generateRandomData();
+      populateTable(data);
+
+      function generateRandomData() {
+        let data = [];
+        for (let i = 0; i < 5; i++) {
+          let row = [i + 1];
+          for (let j = 0; j < 5; j++) {
+            row.push(Math.floor(Math.random() * 100) + 1);
+          }
+          data.push(row);
+        }
+        return data;
+      }
+
+      function populateTable(data) {
+        tableBody.innerHTML = "";
+        data.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = row.map(cell => `<td>${cell}</td>`).join("");
+          tr.addEventListener("click", () => updateChart(row.slice(1)));
+          tableBody.appendChild(tr);
         });
-    </script>
-        <!--FOOTER-->
-    <div class="container">
-        <footer class=" justify-content-center align-items-center py-3 my-4 border-top">
-            <ul class="d-flex justify-content-center py-3 nav nav-pills">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Togyer Zoltán Martin</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">JT0PU6</a></li>
-            </ul>
-        </footer>
-    </div>
+      }
+
+      function updateChart(data) {
+        if (chart) chart.destroy();
+        chart = new Chart(ctx, {
+          type: chartType,
+          data: {
+            labels: ['1', '2', '3', '4', '5'],
+            datasets: [{
+              label: 'Kiválasztott sor értékei',
+              data: data,
+              borderColor: 'blue',
+              backgroundColor: 'rgba(0, 123, 255, 0.4)',
+              fill: chartType !== 'line'
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: chartType === 'radar' ? {} : {
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      }
+    });
+
+    function changeChartType() {
+      chartType = document.getElementById("chartType").value;
+    }
+  </script>
+
+  <footer class="container mt-5 mb-4 border-top pt-3">
+    <p class="text-secondary">Togyer Zoltán Martin - JT0PU6</p>
+  </footer>
+
 </body>
 </html>

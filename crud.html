@@ -105,18 +105,19 @@
  
   <div class="employees-table">
     <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Keresés a táblázatban....." title="Type in a name">
-    <table class="list" id="employeeList" ddata-search="true" data-pagination="true">
+    <table class="list table table-striped" id="employeeList" ddata-search="true" data-pagination="true">
       
 
       <thead>
         <tr>
-          <th >Név</th>
-          <th >Email cím</th>
-          <th >Fizetés</th>
-          <th >Település</th>
-          <th >Műveletek</th>
+          <th onclick="sortTable(0)">Név</th>
+          <th onclick="sortTable(1)">Email cím</th>
+          <th onclick="sortTable(2)">Fizetés</th>
+          <th onclick="sortTable(3)">Település</th>
+          <th>Műveletek</th>
         </tr>
       </thead>
+
       <tbody>
 
       </tbody>
