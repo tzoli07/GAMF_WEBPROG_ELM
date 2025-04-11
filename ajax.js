@@ -1,136 +1,133 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const API_URL = "http://gamf.nhely.hu/ajax2/";
-  const CODE = "JT0PU6efg456"; // Cseréld ki a sajátodra!
-
-  const getEl = id => document.getElementById(id);
-
-  const showResponse = (id, msg, success = true) => {
-    const el = getEl(id);
-    el.textContent = msg;
-    el.style.color = success ? "green" : "red";
+code="JT0PU6abc123";
+url="http://gamf.nhely.hu/ajax1/";
+var xmlHttp=new XMLHttpRequest();
+function read() {
+  document.getElementById("code").innerHTML="code="+code;
+  xmlHttp.open("POST",url,true);
+  xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  var params = "code="+code+"&op=read";
+  xmlHttp.onreadystatechange = () => {
+    if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+      let data = xmlHttp.responseText;
+      data = JSON.parse(data);
+      let list = data.list;
+      str="<H1>Read</H1>";
+      str+="<p>Number of records: "+data.rowCount+"</p>";
+      str+="<p>Last max "+data.maxNum+" records:</p>";
+      str+="<table><tr><th>id</th><th>name</th><th>city</th><th>phone</th><th>code</th></tr>";
+      for(let i=0; i<list.length; i++)
+        str += "<tr><td>"+list[i].id+"</td><td>"+list[i].name+"</td><td>"+list[i].city+"</td><td>"+list[i].phone+"</td><td>"+list[i].code+"</td></tr>";
+      str +="</table>";
+      document.getElementById("readDiv").innerHTML=str;
+    }
   };
+  xmlHttp.send(params);
+}
 
-  getEl("loadData").addEventListener("click", loadData);
-  getEl("create").addEventListener("click", createData);
-  getEl("getDataForId").addEventListener("click", getDataForId);
-  getEl("update").addEventListener("click", updateData);
-  getEl("delete").addEventListener("click", deleteData);
-
-  function loadData() {
-    fetch(`${API_URL}?op=read&code=${CODE}`)
-      .then(res => res.text())
-      .then(text => {
-        if (!text.trim()) throw new Error("Üres válasz érkezett az API-tól.");
-        const data = JSON.parse(text);
-        const list = getEl("dataList");
-        list.innerHTML = "";
-
-        let totalHeight = 0;
-        let maxHeight = 0;
-
-        data.list.forEach(item => {
-          const li = document.createElement("li");
-          li.className = "list-group-item";
-          li.textContent = `ID: ${item.id}, Név: ${item.name}, Magasság: ${item.height}, Súly: ${item.weight}`;
-          list.appendChild(li);
-          const h = parseInt(item.height) || 0;
-          totalHeight += h;
-          if (h > maxHeight) maxHeight = h;
-        });
-
-        const avg = (totalHeight / data.list.length).toFixed(2);
-        getEl("stats").textContent = `Összmagasság: ${totalHeight}, Átlag: ${avg}, Legnagyobb: ${maxHeight}`;
-      })
-      .catch(err => alert("Hiba történt: " + err.message));
+function create(){
+  // name: reserved word
+  nameStr = document.getElementById("name1").value;
+  city = document.getElementById("city1").value;
+  phone = document.getElementById("phone1").value;
+  if(nameStr.length>0 && nameStr.length<=30 && city.length>0 && city.length<=30 && phone.length>0 && phone.length<=30 && code.length<=30){
+    xmlHttp.open("POST",url,true);
+    xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    var params = "code="+code+"&op=create&name="+nameStr+"&city="+city+"&phone="+phone;
+    xmlHttp.onreadystatechange = () => {
+      if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        let data = xmlHttp.responseText;
+        if(data>0)
+          str="Create successful!";
+        else
+        str="Create NOT successful!";
+        document.getElementById("createResult").innerHTML=str;
+        document.getElementById("name1").value="";
+        document.getElementById("city1").value="";
+        document.getElementById("phone1").value="";
+        read();
+      }
+    };
+    xmlHttp.send(params);
   }
+  else
+    document.getElementById("createResult").innerHTML="Validation error!!";
+}
 
-  function validateInput(name, height, weight) {
-    if (!name || !height || !weight) {
-      alert("Minden mezőt ki kell tölteni!");
-      return false;
-    }
-    if ([name, height, weight].some(x => x.length > 30)) {
-      alert("A mezők maximum 30 karakter hosszúak lehetnek!");
-      return false;
-    }
-    return true;
-  }
-
-  function createData() {
-    const name = getEl("name").value.trim();
-    const height = getEl("height").value.trim();
-    const weight = getEl("weight").value.trim();
-
-    if (!validateInput(name, height, weight)) return;
-
-    fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `op=create&name=${name}&height=${height}&weight=${weight}&code=${CODE}`
-    })
-    .then(res => res.text())
-    .then(res => showResponse("createResponse", res.includes("1") ? "Sikeres hozzáadás!" : "Nem sikerült!", res.includes("1")))
-    .catch(err => showResponse("createResponse", err.message, false));
-  }
-
-  function getDataForId() {
-    const id = getEl("updateId").value.trim();
-    if (!id) {
-      showResponse("updateResponse", "Adj meg egy ID-t!", false);
-      return;
-    }
-
-    fetch(`${API_URL}?op=read&code=${CODE}`)
-      .then(res => res.text())
-      .then(text => {
-        if (!text.trim()) throw new Error("Üres válasz.");
-        const data = JSON.parse(text);
-        const item = data.list.find(i => String(i.id) === id);
-        if (item) {
-          getEl("updateName").value = item.name;
-          getEl("updateHeight").value = item.height;
-          getEl("updateWeight").value = item.weight;
-          showResponse("updateResponse", "Adat betöltve.", true);
-        } else {
-          showResponse("updateResponse", "Nincs ilyen ID!", false);
+function getDataForId() {
+  xmlHttp.open("POST",url,true);
+  xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  var params = "code="+code+"&op=read";
+  xmlHttp.onreadystatechange = () => {
+    if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+      let data = xmlHttp.responseText;
+      data = JSON.parse(data);
+      let list = data.list;
+      for(let i=0; i<list.length; i++)
+        if(list[i].id==document.getElementById("idUpd").value){
+          document.getElementById("name2").value=list[i].name;
+          document.getElementById("city2").value=list[i].city;
+          document.getElementById("phone2").value=list[i].phone;
         }
-      })
-      .catch(err => showResponse("updateResponse", err.message, false));
-  }
-
-  function updateData() {
-    const id = getEl("updateId").value.trim();
-    const name = getEl("updateName").value.trim();
-    const height = getEl("updateHeight").value.trim();
-    const weight = getEl("updateWeight").value.trim();
-
-    if (!validateInput(name, height, weight)) return;
-
-    fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `op=update&id=${id}&name=${name}&height=${height}&weight=${weight}&code=${CODE}`
-    })
-    .then(res => res.text())
-    .then(res => showResponse("updateResponse", res.includes("1") ? "Sikeres módosítás!" : "Nem sikerült!", res.includes("1")))
-    .catch(err => showResponse("updateResponse", err.message, false));
-  }
-
-  function deleteData() {
-    const id = getEl("deleteId").value.trim();
-
-    if (!id) {
-      showResponse("deleteResponse", "Adj meg egy ID-t!", false);
-      return;
     }
+  };
+  xmlHttp.send(params);
+}
 
-    fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `op=delete&id=${id}&code=${CODE}`
-    })
-    .then(res => res.text())
-    .then(res => showResponse("deleteResponse", res.includes("1") ? "Sikeres törlés!" : "Nem sikerült!", res.includes("1")))
-    .catch(err => showResponse("deleteResponse", err.message, false));
+function update(){
+  // name: reserved word
+  id = document.getElementById("idUpd").value;
+  nameStr = document.getElementById("name2").value;
+  city = document.getElementById("city2").value;
+  phone = document.getElementById("phone2").value;
+  if(id.length>0 && id.length<=30 && nameStr.length>0 && nameStr.length<=30 && city.length>0 && city.length<=30 && phone.length>0 && phone.length<=30 && code.length<=30){
+    xmlHttp.open("POST",url,true);
+    xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    var params = "code="+code+"&op=update&id="+id+"&name="+nameStr+"&city="+city+"&phone="+phone;
+    xmlHttp.onreadystatechange = () => {
+      if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        let data = xmlHttp.responseText;
+        if(data>0)
+          str="Update successful!";
+        else
+        str="Update NOT successful!";
+        document.getElementById("updateResult").innerHTML=str;
+        document.getElementById("idUpd").value="";
+        document.getElementById("name2").value="";
+        document.getElementById("city2").value="";
+        document.getElementById("phone2").value="";
+        read();
+      }
+    };
+    xmlHttp.send(params);
   }
-});
+  else
+    document.getElementById("updateResult").innerHTML="Validation error!!";
+}
+
+//delete: resetved word
+function deleteF(){
+  id = document.getElementById("idDel").value;
+  if(id.length>0 && id.length<=30){
+    xmlHttp.open("POST",url,true);
+    xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    var params = "code="+code+"&op=delete&id="+id;
+    xmlHttp.onreadystatechange = () => {
+      if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        let data = xmlHttp.responseText;
+        if(data>0)
+          str="Delete successful!";
+        else
+        str="Delete NOT successful!";
+        document.getElementById("deleteResult").innerHTML=str;
+        document.getElementById("idDel").value="";
+        read();
+      }
+    };
+    xmlHttp.send(params);
+  }
+  else
+    document.getElementById("deleteResult").innerHTML="Validation error!!";
+}
+window.onload = function() {
+    read();
+};
