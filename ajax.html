@@ -19,6 +19,40 @@
   </style>
 </head>
 <body class="container py-4">
+
+  <header>
+    <h1 class="text-center">Web-programozás-1 Előadás Házi feladat</h1>
+  </header>
+
+<!--NAVBAR-->
+  <div class="container">
+      <header class="d-flex justify-content-center py-2">
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="index.html" class="nav-link " aria-current="page">Főoldal</a></li>
+
+            <li class="nav-item"><a href="crud.html" class="nav-link ">CRUD</a></li>
+            <li class="nav-item"><a href="chart.html" class="nav-link">ChartJS</a></li>
+             <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                HTML5 MENÜ
+              </a>
+              <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
+                  <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
+                  <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
+                  <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
+                  <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
+                  <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
+                  <li><a class="dropdown-item" href="svg.html">SVG</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a href="ajax.html" class="nav-link active">AJAX</a></li>
+            <li class="nav-item"><a href="oo.html" class="nav-link">OOJS Alkalmazás</a></li>
+          </ul>
+      </header>
+    </div>
+
+<hr>
   <h1 class="text-center mb-4">AJAX CRUD alkalmazás</h1>
 
   <!-- Adatok betöltése 
@@ -48,9 +82,9 @@
     <div class="card-header bg-success text-white">Új adat hozzáadása</div>
     <div class="card-body">
       <div class="row g-2">
-        <div class="col-md-4"><input id="name1" type="text" class="form-control" placeholder="Név (max 30)" maxlength="30"></div>
-        <div class="col-md-4"><input id="city1" type="text" class="form-control" placeholder="Város (max 30)" maxlength="30"></div>
-        <div class="col-md-4"><input id="phone1" type="text" class="form-control" placeholder="Telefon (max 30)" maxlength="30"></div>
+        <div class="col-md-4"><input id="name1" type="text" class="form-control" placeholder="Név (max 30 karakter)" maxlength="30" required></div>
+        <div class="col-md-4"><input id="city1" type="number" class="form-control" placeholder="Súly (max 30 karakter)" maxlength="30" min="0" required></div>
+        <div class="col-md-4"><input id="phone1" type="number" class="form-control" placeholder="Magasság (max 30 karakter)" maxlength="30" min="0" required></div>
       </div>
       <div class="mt-3">
         <button class="btn btn-success" onclick="create()">Létrehozás</button>
@@ -70,9 +104,9 @@
         </div>
       </div>
       <div class="row g-2">
-        <div class="col-md-4"><input id="name2" type="text" class="form-control" placeholder="Új név (max 30)" maxlength="30"></div>
-        <div class="col-md-4"><input id="city2" type="text" class="form-control" placeholder="Új város (max 30)" maxlength="30"></div>
-        <div class="col-md-4"><input id="phone2" type="text" class="form-control" placeholder="Új telefon (max 30)" maxlength="30"></div>
+        <div class="col-md-4"><input id="name2" type="text" class="form-control" placeholder="Új név (max 30 karakter)" maxlength="30" required></div>
+        <div class="col-md-4"><input id="city2" type="number" class="form-control" placeholder="Új Súly (max 30 karakter)" maxlength="30" min="0" required></div>
+        <div class="col-md-4"><input id="phone2" type="number" class="form-control" placeholder="Új Magasság (max 30 karakter)" maxlength="30" min="0" required></div>
       </div>
       <div class="mt-3">
         <button class="btn btn-info text-white" onclick="update()">Módosítás</button>

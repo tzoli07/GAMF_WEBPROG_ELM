@@ -1,6 +1,7 @@
 code="JT0PU6abc123";
 url="http://gamf.nhely.hu/ajax1/";
 var xmlHttp=new XMLHttpRequest();
+
 function read() {
   document.getElementById("code").innerHTML="code="+code;
   xmlHttp.open("POST",url,true);
@@ -11,21 +12,69 @@ function read() {
       let data = xmlHttp.responseText;
       data = JSON.parse(data);
       let list = data.list;
-      str="<H1>Read</H1>";
-      str+="<p>Number of records: "+data.rowCount+"</p>";
-      str+="<p>Last max "+data.maxNum+" records:</p>";
-      str+="<table><tr><th>id</th><th>name</th><th>city</th><th>phone</th><th>code</th></tr>";
-      for(let i=0; i<list.length; i++)
-        str += "<tr><td>"+list[i].id+"</td><td>"+list[i].name+"</td><td>"+list[i].city+"</td><td>"+list[i].phone+"</td><td>"+list[i].code+"</td></tr>";
-      str +="</table>";
-      document.getElementById("readDiv").innerHTML=str;
+
+      let sum = 0;
+      let max = -Infinity;
+      let count = 0;
+
+      let str = "<h1>Read</h1>";
+      str += "<p>Number of records: " + data.rowCount + "</p>";
+      str += "<p>Last max " + data.maxNum + " records:</p>";
+      str += `
+        <table class="table table-striped table-bordered align-middle text-center">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Név</th>
+              <th>Súly</th>
+              <th>Magasság</th>
+              <th>Kód</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      for(let i=0; i<list.length; i++) {
+        let height = parseFloat(list[i].phone);
+        if (!isNaN(height)) {
+          sum += height;
+          if (height > max) max = height;
+          count++;
+        }
+        str += "<tr><td>" + list[i].id + "</td><td>" + list[i].name + "</td><td>" + list[i].city + "</td><td>" + list[i].phone + "</td><td>" + list[i].code + "</td></tr>";
+      }
+
+      str += "</tbody></table>";
+
+      let avg = count > 0 ? (sum / count).toFixed(2) : 0;
+
+      str += `
+        <h2>Magasság statisztikák</h2>
+        <table class="table table-bordered text-center">
+          <thead class="table-secondary">
+            <tr>
+              <th>Összeg</th>
+              <th>Átlag</th>
+              <th>Legnagyobb</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>${sum.toFixed(2)}</td>
+              <td>${avg}</td>
+              <td>${max}</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+
+      document.getElementById("readDiv").innerHTML = str;
     }
   };
   xmlHttp.send(params);
 }
 
 function create(){
-  // name: reserved word
   nameStr = document.getElementById("name1").value;
   city = document.getElementById("city1").value;
   phone = document.getElementById("phone1").value;
@@ -36,21 +85,18 @@ function create(){
     xmlHttp.onreadystatechange = () => {
       if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         let data = xmlHttp.responseText;
-        if(data>0)
-          str="Create successful!";
-        else
-        str="Create NOT successful!";
-        document.getElementById("createResult").innerHTML=str;
-        document.getElementById("name1").value="";
-        document.getElementById("city1").value="";
-        document.getElementById("phone1").value="";
+        let str = data > 0 ? "Create successful!" : "Create NOT successful!";
+        document.getElementById("createResult").innerHTML = str;
+        document.getElementById("name1").value = "";
+        document.getElementById("city1").value = "";
+        document.getElementById("phone1").value = "";
         read();
       }
     };
     xmlHttp.send(params);
+  } else {
+    document.getElementById("createResult").innerHTML = "Validation error!!";
   }
-  else
-    document.getElementById("createResult").innerHTML="Validation error!!";
 }
 
 function getDataForId() {
@@ -62,19 +108,19 @@ function getDataForId() {
       let data = xmlHttp.responseText;
       data = JSON.parse(data);
       let list = data.list;
-      for(let i=0; i<list.length; i++)
-        if(list[i].id==document.getElementById("idUpd").value){
-          document.getElementById("name2").value=list[i].name;
-          document.getElementById("city2").value=list[i].city;
-          document.getElementById("phone2").value=list[i].phone;
+      for(let i=0; i<list.length; i++) {
+        if(list[i].id == document.getElementById("idUpd").value){
+          document.getElementById("name2").value = list[i].name;
+          document.getElementById("city2").value = list[i].city;
+          document.getElementById("phone2").value = list[i].phone;
         }
+      }
     }
   };
   xmlHttp.send(params);
 }
 
 function update(){
-  // name: reserved word
   id = document.getElementById("idUpd").value;
   nameStr = document.getElementById("name2").value;
   city = document.getElementById("city2").value;
@@ -86,25 +132,21 @@ function update(){
     xmlHttp.onreadystatechange = () => {
       if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         let data = xmlHttp.responseText;
-        if(data>0)
-          str="Update successful!";
-        else
-        str="Update NOT successful!";
-        document.getElementById("updateResult").innerHTML=str;
-        document.getElementById("idUpd").value="";
-        document.getElementById("name2").value="";
-        document.getElementById("city2").value="";
-        document.getElementById("phone2").value="";
+        let str = data > 0 ? "Update successful!" : "Update NOT successful!";
+        document.getElementById("updateResult").innerHTML = str;
+        document.getElementById("idUpd").value = "";
+        document.getElementById("name2").value = "";
+        document.getElementById("city2").value = "";
+        document.getElementById("phone2").value = "";
         read();
       }
     };
     xmlHttp.send(params);
+  } else {
+    document.getElementById("updateResult").innerHTML = "Validation error!!";
   }
-  else
-    document.getElementById("updateResult").innerHTML="Validation error!!";
 }
 
-//delete: resetved word
 function deleteF(){
   id = document.getElementById("idDel").value;
   if(id.length>0 && id.length<=30){
@@ -114,20 +156,18 @@ function deleteF(){
     xmlHttp.onreadystatechange = () => {
       if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         let data = xmlHttp.responseText;
-        if(data>0)
-          str="Delete successful!";
-        else
-        str="Delete NOT successful!";
-        document.getElementById("deleteResult").innerHTML=str;
-        document.getElementById("idDel").value="";
+        let str = data > 0 ? "Delete successful!" : "Delete NOT successful!";
+        document.getElementById("deleteResult").innerHTML = str;
+        document.getElementById("idDel").value = "";
         read();
       }
     };
     xmlHttp.send(params);
+  } else {
+    document.getElementById("deleteResult").innerHTML = "Validation error!!";
   }
-  else
-    document.getElementById("deleteResult").innerHTML="Validation error!!";
 }
+
 window.onload = function() {
-    read();
+  read();
 };

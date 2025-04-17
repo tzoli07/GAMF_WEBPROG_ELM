@@ -1,135 +1,153 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-	<title></title>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--Bootstrap CSS-->
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <title>Drag & Drop Feladatkezelő</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    body {
+      background: linear-gradient(100deg, #FF9A02, #FED404);
+    }
 
-	<!--SAJÁT CSS-->
-	<link type="text/css" rel="stylesheet" href="style.css">
+    h1 {
+      margin-top: 20px;
+    }
 
-	<!--Bootstrap JS-->
-	<script src="js/bootstrap.bundle.min.js"></script>
+    .task-list li {
+      list-style: none;
+      background-color: #ffffffcc;
+      border-radius: 10px;
+      margin: 10px auto;
+      width: 220px;
+      padding: 12px;
+      cursor: grab;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    }
 
-	<style>
-		.draggable {
-            width: 100px;
-            height: 100px;
-            background-color: #007bff;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            cursor: grab;
-        }
-        .dropzone {
-            width: 100%;
-            height: 200px;
-            border: 2px dashed #007bff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 20px;
-            background-color: #e9ecef;
-        }
+    .task-list li:hover:after {
+      content: ' (Húzd le)';
+      font-size: 0.9rem;
+      color: #555;
+    }
 
-        body {
-      background: linear-gradient(100deg, #FF9A02, #FED404);}
-	</style>
+    #trash {
+      font-size: 90px;
+      color: #fff;
+      margin: 30px auto;
+      width: 120px;
+      height: 120px;
+      line-height: 100px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #trash.over {
+      background-color: rgba(255, 0, 0, 0.6);
+    }
+
+    footer {
+      margin-top: 60px;
+    }
+  </style>
 </head>
-<body class="text-center container" >
-	<!--HEADER-->
-	<br>
-	<header>
-		<h1>Web-programozás-1 Előadás Házi feladat</h1>
-	</header>
+<body class="text-center container">
 
+  <!-- HEADER -->
+  <header>
+    <h1>Web-programozás-1 Előadás Házi feladat</h1>
+  </header>
 
-	<!--NAVBAR-->
-	<div class="container">
-    	<header class="d-flex justify-content-center py-3">
-      		<ul class="nav nav-pills">
-        		<li class="nav-item"><a href="index.html" class="nav-link" aria-current="page">Főoldal</a></li>
-            <li class="nav-item"><a href="crud.html" class="nav-link">CRUD</a></li>
-            <li class="nav-item"><a href="chart.html" class="nav-link">ChartJS</a></li>
-            <li class="nav-item dropdown">
-	            <div class="dropdown">
-					<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-							    HTML5 MENÜ
-					</button>
-					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
-		                <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
-		                <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
-		                <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
-		                <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
-		                <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
-		                <li><a class="dropdown-item" href="svg.html">SVG</a></li>
-					</ul>
-					</div>
-	            </li>
-	            <li class="nav-item"><a href="ajax.html" class="nav-link">AJAX</a></li>
-	            	            	                         <li class="nav-item"><a href="oo.html" class="nav-link">OOJS Alkalmazás</a></li>
+  <!-- NAVBAR -->
+  <div class="container">
+    <header class="d-flex justify-content-center py-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="index.html" class="nav-link">Főoldal</a></li>
+        <li class="nav-item"><a href="crud.html" class="nav-link">CRUD</a></li>
+        <li class="nav-item"><a href="chart.html" class="nav-link">ChartJS</a></li>
+        <li class="nav-item dropdown">
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              HTML5 MENÜ
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="webstorage.html">Web Storage</a></li>
+              <li><a class="dropdown-item" href="webworkers.html">Web Workers</a></li>
+              <li><a class="dropdown-item" href="server-sent.html">Server-Sent Events</a></li>
+              <li><a class="dropdown-item" href="geoapi.html">Geolocation API</a></li>
+              <li><a class="dropdown-item" href="drag-drop-api.html">Drag and drop API</a></li>
+              <li><a class="dropdown-item" href="canvas.html">Canvas</a></li>
+              <li><a class="dropdown-item" href="svg.html">SVG</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item"><a href="ajax.html" class="nav-link">AJAX</a></li>
+        <li class="nav-item"><a href="oo.html" class="nav-link">OOJS Alkalmazás</a></li>
+      </ul>
+    </header>
+  </div>
 
-	      		</ul>
-    	</header>
-  	</div>
+  <hr>
 
-<hr>
-	<!--ASIDE-->
-	<aside>
-		
-	</aside>
+  <!-- CONTENT -->
+  <div class="content container text-center">
+    <h3 class="mb-4">Feladatkezelés Drag and Drop segítségével</h3> 
+    <p class="lead">Húzd az elvégzett feladatokat a szemetesbe!</p>
 
-	<!--DIV-CONTENT-->
-	<div class="content container text-center">
+    <div id="trash">
+      <i class="bi bi-trash3-fill"></i>
+    </div>
 
-		<h3 class="mb-4">Drag and Drop API</h3> 
-        <p class="lead">Fogd és vidd műveletek a böngészőben.</p>
-        
-        <div id="draggable" class="draggable" draggable="true">Húzz ide</div>
-        <div id="dropzone" class="dropzone">Ide húzd az elemet</div>
-		
+    <ul class="task-list p-0">
+      <li><div id="task1" draggable="true">🧺 Mosás</div></li>
+      <li><div id="task2" draggable="true">📚 Tanulás JavaScript</div></li>
+      <li><div id="task3" draggable="true">🧾 Számlák rendezése</div></li>
+      <li><div id="task4" draggable="true">💼 Házi beadása</div></li>
+    </ul>
+  </div>
 
-	</div>
+  <!-- FOOTER -->
+  <div class="container">
+    <footer class="justify-content-center align-items-center py-3 my-4 border-top">
+      <ul class="d-flex justify-content-center py-3 nav nav-pills">
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Togyer Zoltán Martin</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">JT0PU6</a></li>
+      </ul>
+    </footer>
+  </div>
 
+  <!-- DRAG&DROP SCRIPT -->
+  <script>
+    const tasks = document.querySelectorAll('.task-list div');
+    const trash = document.getElementById('trash');
 
-  
+    tasks.forEach(task => {
+      task.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', task.id);
+      });
+    });
 
+    trash.addEventListener('dragover', e => {
+      e.preventDefault();
+      trash.classList.add('over');
+    });
 
-	<!--FOOTER-->
-	<div class="container">
-  		<footer class=" justify-content-center align-items-center py-3 my-4 border-top">
-    		<ul class="d-flex justify-content-center py-3 nav nav-pills">
-      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Togyer Zoltán Martin</a></li>
-      			<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">JT0PU6</a></li>
-    		</ul>
-  		</footer>
-	</div>
+    trash.addEventListener('dragleave', () => {
+      trash.classList.remove('over');
+    });
 
-
- <script>
-        const draggable = document.getElementById("draggable");
-        const dropzone = document.getElementById("dropzone");
-
-        draggable.addEventListener("dragstart", (event) => {
-            event.dataTransfer.setData("text", event.target.id);
-        });
-
-        dropzone.addEventListener("dragover", (event) => {
-            event.preventDefault();
-        });
-
-        dropzone.addEventListener("drop", (event) => {
-    event.preventDefault();
-    let data = event.dataTransfer.getData("text");
-    let draggedElement = document.getElementById(data);
-    dropzone.appendChild(draggedElement.cloneNode(true));
-});
-
-    </script>
+    trash.addEventListener('drop', e => {
+      e.preventDefault();
+      const id = e.dataTransfer.getData('text/plain');
+      const task = document.getElementById(id);
+      if (task) task.parentNode.remove();
+      trash.classList.remove('over');
+    });
+  </script>
+  <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
