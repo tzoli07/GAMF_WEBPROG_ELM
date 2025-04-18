@@ -74,7 +74,6 @@
             <input type="text" id="dataInput" class="form-control" placeholder="Írj be valamit...">
         </div>
         <button class="btn btn-primary" onclick="saveData()">Mentés</button>
-        <button class="btn btn-success" onclick="loadData()">Betöltés</button>
         <button class="btn btn-danger" onclick="clearData()">Törlés</button>
         
         <div class="mt-4">
@@ -90,10 +89,6 @@
             document.getElementById("output").innerText = inputData || "Nincs adat";
         }
         
-        function loadData() {
-            let storedData = localStorage.getItem("storedData");
-            document.getElementById("output").innerText = storedData || "Nincs adat";
-        }
         
         function clearData() {
             localStorage.removeItem("storedData");
